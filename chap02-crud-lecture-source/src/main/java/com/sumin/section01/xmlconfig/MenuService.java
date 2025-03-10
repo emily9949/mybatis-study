@@ -41,8 +41,8 @@ public class MenuService {
 
         int result = menuDAO.insertMenu(sqlSession, menu);
 
-        /* 설명. 성공 실패에 따라 트랜잭션 처리 (commit/rollback) */
-        if (result == 1) {
+        /* 설명. 성공 실패에 따라 트랜잭션 처리(commit/rollback) */
+        if(result == 1) {
             sqlSession.commit();
         } else {
             sqlSession.rollback();
@@ -50,6 +50,23 @@ public class MenuService {
 
         sqlSession.close();
 
-        return result == 1?true:false;
+        return result == 1? true: false;
+    }
+
+    public boolean modifyMenu(MenuDTO menu) {
+        SqlSession sqlSession = getSqlSession();
+
+        int result = menuDAO.updateMenu(sqlSession, menu);
+
+        /* 설명. 성공 실패에 따라 트랜잭션 처리(commit/rollback) */
+        if(result == 1) {
+            sqlSession.commit();
+        } else {
+            sqlSession.rollback();
+        }
+
+        sqlSession.close();
+
+        return result == 1? true: false;
     }
 }

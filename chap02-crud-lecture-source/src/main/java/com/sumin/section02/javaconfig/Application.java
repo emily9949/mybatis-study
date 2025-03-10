@@ -1,4 +1,4 @@
-package com.sumin.section01.xmlconfig;
+package com.sumin.section02.javaconfig;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,9 +8,10 @@ public class Application {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        MenuController mc = new MenuController();
+        MenuController menuController = new MenuController();
+
         do {
-            System.out.println("====== 메뉴 관리 ======");
+            System.out.println("======= 메뉴 관리 =======");
             System.out.println("1. 메뉴 전체 조회");
             System.out.println("2. 메뉴 코드로 메뉴 조회");
             System.out.println("3. 신규 메뉴 추가");
@@ -19,55 +20,52 @@ public class Application {
             System.out.println("9. 프로그램 종료");
             System.out.print("메뉴 관리 번호를 입력하세요: ");
             int no = sc.nextInt();
+
             switch (no) {
                 case 1:
-                    mc.findAllMenus();
+                    menuController.findAllMenus();
                     break;
                 case 2:
-                    mc.findMenuByMenuCode(inputMenuCode());
+                    menuController.findMenuByMenuCode(inputMenuCode());
                     break;
                 case 3:
-                    mc.registMenu(inputMenu());
+                    menuController.registMenu(inputMenu());
                     break;
                 case 4:
-                    mc.modifyMenu(inputModifyMenu());
+                    menuController.modifyMenu(inputModifyMenu());
                     break;
                 case 5:
-                    mc.removeMenu(inputMenuCode());
+                    menuController.removeMenu(inputMenuCode());
                     break;
                 case 9:
-                    System.out.println("프로그램을 종료하겠습니다.");
+                    System.out.println("프로그램을 종료합니다.");
                     return;
                 default:
-                    System.out.println("번호를 잘 확인하고 입력해 주세요");
+                    System.out.println("잘못된 메뉴를 입력하셨습니다.");
             }
         } while(true);
     }
 
-    private static Map<String, String> inputModifyMenu() {
+    /* 설명. 사용자의 입력 값을 Map 형태로 반환(web에서는 key와 value형태로 request 객체에 담기는 parameter로 생각) */
+    private static Map<String, String> inputMenuCode() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("변경할 메뉴의 번호를 입력해주세요: ");
+        System.out.print("메뉴 코드를 입력하세요: ");
         String menuCode = sc.nextLine();
-        System.out.print("변경할 메뉴의 이름을 입력해주세요: ");
-        String menuName = sc.nextLine();
-        System.out.print("변경할 메뉴의 가격을 입력해주세요: ");
-        String menuPrice = sc.nextLine();
 
         Map<String, String> parameter = new HashMap<>();
         parameter.put("menuCode", menuCode);
-        parameter.put("menuName", menuName);
-        parameter.put("menuPrice", menuPrice);
 
         return parameter;
     }
 
     private static Map<String, String> inputMenu() {
+
         Scanner sc = new Scanner(System.in);
-        System.out.print("신규 메뉴의 이름을 입력해주세요: ");
+        System.out.print("신규 메뉴의 이름을 입력해 주세요: ");
         String menuName = sc.nextLine();
-        System.out.print("신규 메뉴의 가격을 입력해주세요: ");
+        System.out.print("신규 메뉴의 가격을 입력해 주세요: ");
         String menuPrice = sc.nextLine();
-        System.out.print("신규 메뉴의 카테고리 코드를 입력해주세요: ");
+        System.out.print("신규 메뉴의 카테고리 코드를 입력해 주세요: ");
         String categoryCode = sc.nextLine();
 
         Map<String, String> parameter = new HashMap<>();
@@ -78,14 +76,20 @@ public class Application {
         return parameter;
     }
 
-    /* 설명. int 로 반환하는게 아니라, 사용자의 입력 값을 Map<String, String> 형태로 반환해야 함 (request의 parameter 개념 적용)*/
-    private static Map<String, String> inputMenuCode() {
+    private static Map<String, String> inputModifyMenu() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("조회 할 메뉴를 입력하세요: ");
+        System.out.print("변경할 메뉴의 번호를 입력해 주세요: ");
         String menuCode = sc.nextLine();
+        System.out.print("변경할 메뉴의 이름을 입력해 주세요: ");
+        String menuName = sc.nextLine();
+        System.out.print("변경할 메뉴의 가격을 입력해 주세요: ");
+        String menuPrice = sc.nextLine();
+
 
         Map<String, String> parameter = new HashMap<>();
-        parameter.put("menuCode", menuCode); // menuCode 키에 menuCode 값을 매핑
+        parameter.put("menuCode", menuCode);
+        parameter.put("menuName", menuName);
+        parameter.put("menuPrice", menuPrice);
 
         return parameter;
     }
