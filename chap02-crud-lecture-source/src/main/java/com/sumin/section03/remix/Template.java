@@ -1,4 +1,4 @@
-package com.sumin.section02.javaconfig;
+package com.sumin.section03.remix;
 
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
@@ -27,9 +27,11 @@ public class Template {
 
             Configuration configuration = new Configuration(environment);
 
+            /* 설명. type alias 적용 */
+            configuration.getTypeAliasRegistry().registerAlias("MenuDTO", MenuDTO.class);
+
             /* 설명. Mapper용 인터페이스를 추가한다. */
             configuration.addMapper(MenuMapper.class);
-//            configuration.addMappers("com.ohgiraffers.section02.javaconfig");
 
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         }
