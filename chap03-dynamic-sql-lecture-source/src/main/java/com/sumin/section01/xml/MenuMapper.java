@@ -1,6 +1,7 @@
 package com.sumin.section01.xml;
 
 import java.util.List;
+import java.util.Map;
 
 /* 설명.
 *   SQL 실행 후 결과를 List<MenuDTO> 형태로 반환
@@ -13,5 +14,13 @@ public interface MenuMapper {
     List<MenuDTO> searchMenu(SearchCriteria searchCriteria);
 
     List<MenuDTO> searchMenuBySupCategory(SearchCriteria searchCriteria);
-    }
+
+    List<MenuDTO> searchMenuByRandomMenuCode(List<Integer> randomList);
+
+    List<MenuDTO> searchMenuByCodeOrSearchAll(SearchCriteria searchCriteria);
+
+    List<MenuDTO> searchMenuByNameOrCategory(Map<String, Object> criteria);
+
+    int updateMenu(Map<String, Object> criteria);
+}
 

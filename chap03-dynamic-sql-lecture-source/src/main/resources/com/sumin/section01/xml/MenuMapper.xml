@@ -73,15 +73,16 @@
         FROM TBL_MENU A
     <!--
         카테고리 검색일 경우, JOIN 조건 추가
-
     -->
         <if test="condition == 'category'">
             JOIN TBL_CATEGORY B ON (A.CATEGORY_CODE = B.CATEGORY_CODE)
         </if>
+<!--        TBL_MENU(A) 테이블에서 ORDERABLE_STATUS가 'Y'(주문 가능)인 메뉴만 조회-->
         WHERE ORDERABLE_STATUS = 'Y'
         <if test="condition == 'name'">
             AND A.MENU_NAME LIKE CONCAT('%', #{value}, '%')
         </if>
+<!--        조건이 카테고리 검색일 경우, B.CATEGORY_NAME 값이 검색어와 일치하는 메뉴만 조회 -->
         <if test="condition == 'category'">
             AND B.CATEGORY_NAME = #{value}
         </if>
@@ -109,5 +110,32 @@
                 AND A.CATEGORY_CODE IN (11, 12)
             </when>
         </choose>
+    </select>
+    <select id="searchMenuByRandomMenuCode" parameterType="list" resultMap="menuResultMap">
+        SELECT
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.MENU_CODE IN
+        <foreach collection="list"
+                 item="menuCode" open="(" close=")" separator=", ">
+            #{menuCode}
+        </foreach>
+    </select>
+    <select id="searchMenuByCodeOrSearchAll" parameterType="com.sumin.section01.xml.SearchCriteria"
+            resultMap="menuResultMap">
+        SELECT
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        <if test="condition != null and condition == 'menuCode'">
+            WHERE A.MENU_CODE = ${value}
+        </if>
     </select>
 </mapper>
